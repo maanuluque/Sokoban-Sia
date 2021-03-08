@@ -11,6 +11,11 @@ class Board:
             for y in range(self.cols):
                 if board[x][y] == '#':
                     self.boxesNumber += 1
+        self.goalsNumber = 0
+        for x in range(self.rows):
+            for y in range(self.cols):
+                if board[x][y] == '+':
+                    self.goalsNumber += 1
 
 
     def whereIsP(self):
@@ -29,6 +34,16 @@ class Board:
                 if self.board[x][y] == '#':
                     boxesPosition.append((x,y))
         return boxesPosition
+
+    def whereAreGoals(self):
+        if self.goalsNumber == 0:
+            return 0,0
+        goalsPosition = []
+        for x in range(self.rows):
+            for y in range(self.cols):
+                if self.board[x][y] == '+':
+                    goalsPosition.append((x,y))
+        return goalsPosition
 
     def print(self):
         for x in range(self.rows):
@@ -106,7 +121,7 @@ class Board:
 
         return True
 
-    def makeMove(self, direction):
+    def makeMove(self, direction, goalsPosition):
         xPlayer, yPlayer = self.whereIsP()
         nextRow = xPlayer
         nextCol = yPlayer
@@ -115,10 +130,16 @@ class Board:
         if direction == constants.UP:
             nextRow -= 1
             if self.board[nextRow][nextCol] == constants.EMPTY:
-                newBoard[xPlayer][yPlayer] = constants.EMPTY
+                if (xPlayer, yPlayer) not in goalsPosition:
+                    newBoard[xPlayer][yPlayer] = constants.EMPTY
+                else:
+                    newBoard[xPlayer][yPlayer] = constants.OBJECTIVE
                 newBoard[nextRow][nextCol] = constants.PLAYER
             if self.board[nextRow][nextCol] == constants.BOX:
-                newBoard[xPlayer][yPlayer] = constants.EMPTY
+                if (xPlayer, yPlayer) not in goalsPosition:
+                    newBoard[xPlayer][yPlayer] = constants.EMPTY
+                else:
+                    newBoard[xPlayer][yPlayer] = constants.OBJECTIVE
                 newBoard[nextRow][nextCol] = constants.PLAYER
                 newBoard[nextRow - 1][nextCol] = constants.BOX
             return newBoard
@@ -126,10 +147,16 @@ class Board:
         if direction == constants.DOWN:
             nextRow += 1
             if self.board[nextRow][nextCol] == constants.EMPTY:
-                newBoard[xPlayer][yPlayer] = constants.EMPTY
+                if (xPlayer, yPlayer) not in goalsPosition:
+                    newBoard[xPlayer][yPlayer] = constants.EMPTY
+                else:
+                    newBoard[xPlayer][yPlayer] = constants.OBJECTIVE
                 newBoard[nextRow][nextCol] = constants.PLAYER
             if self.board[nextRow][nextCol] == constants.BOX:
-                newBoard[xPlayer][yPlayer] = constants.EMPTY
+                if (xPlayer, yPlayer) not in goalsPosition:
+                    newBoard[xPlayer][yPlayer] = constants.EMPTY
+                else:
+                    newBoard[xPlayer][yPlayer] = constants.OBJECTIVE
                 newBoard[nextRow][nextCol] = constants.PLAYER
                 newBoard[nextRow + 1][nextCol] = constants.BOX
             return newBoard
@@ -137,10 +164,16 @@ class Board:
         if direction == constants.LEFT:
             nextCol -= 1
             if self.board[nextRow][nextCol] == constants.EMPTY:
-                newBoard[xPlayer][yPlayer] = constants.EMPTY
+                if (xPlayer, yPlayer) not in goalsPosition:
+                    newBoard[xPlayer][yPlayer] = constants.EMPTY
+                else:
+                    newBoard[xPlayer][yPlayer] = constants.OBJECTIVE
                 newBoard[nextRow][nextCol] = constants.PLAYER
             if self.board[nextRow][nextCol] == constants.BOX:
-                newBoard[xPlayer][yPlayer] = constants.EMPTY
+                if (xPlayer, yPlayer) not in goalsPosition:
+                    newBoard[xPlayer][yPlayer] = constants.EMPTY
+                else:
+                    newBoard[xPlayer][yPlayer] = constants.OBJECTIVE
                 newBoard[nextRow][nextCol] = constants.PLAYER
                 newBoard[nextRow][nextCol - 1] = constants.BOX
             return newBoard
@@ -148,10 +181,16 @@ class Board:
         if direction == constants.RIGHT:
             nextCol += 1
             if self.board[nextRow][nextCol] == constants.EMPTY:
-                newBoard[xPlayer][yPlayer] = constants.EMPTY
+                if (xPlayer, yPlayer) not in goalsPosition:
+                    newBoard[xPlayer][yPlayer] = constants.EMPTY
+                else:
+                    newBoard[xPlayer][yPlayer] = constants.OBJECTIVE
                 newBoard[nextRow][nextCol] = constants.PLAYER
             if self.board[nextRow][nextCol] == constants.BOX:
-                newBoard[xPlayer][yPlayer] = constants.EMPTY
+                if (xPlayer, yPlayer) not in goalsPosition:
+                    newBoard[xPlayer][yPlayer] = constants.EMPTY
+                else:
+                    newBoard[xPlayer][yPlayer] = constants.OBJECTIVE
                 newBoard[nextRow][nextCol] = constants.PLAYER
                 newBoard[nextRow][nextCol + 1] = constants.BOX
             return newBoard

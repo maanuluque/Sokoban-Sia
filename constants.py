@@ -14,3 +14,7 @@ RIGHT     = "right"
 # Algorithms
 BFS       = "bfs"
 DFS       = "dfs"
+
+# Heuristics
+PLAYER_BOX = "pb"
+GOAL_BOX   = "gb"
